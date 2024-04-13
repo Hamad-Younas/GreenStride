@@ -1,0 +1,56 @@
+/* PortFolio */
+.card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -15px;
+}
+
+.card {
+    flex: calc(33.33% - 30px); /* For desktop view, three cards per line */
+    margin: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    color: #555;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    text-align: right;
+}
+
+.text-muted {
+    color: #999;
+}
+
+@media (max-width: 991px) {
+    .card {
+        flex: calc(50% - 30px); /* For tablet view, two cards per line */
+    }
+}
+    
+@media (max-width: 767px) {
+    .card {
+        flex: 100%; /* For mobile view, one card per line */
+    }
+}

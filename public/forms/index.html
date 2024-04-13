@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form">
+                    <span class="login100-form-title p-b-26">
+                        Quiz
+                    </span>
+                    <span class="login100-form-title p-b-48">
+                        <a class='navbar-brand' href='../index.html'><img src="logo1.png" style="margin-top:20px;height: 90px;" alt="image"></a>
+                    </span>
+
+                    <div class="wrap-input100 validate-input">
+                        <p>1. What is the capital of France?</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1" id="q1-option1" value="Paris" data-points="2">
+                            <label class="form-check-label" for="q1-option1">Paris</label>
+                            <span class="points"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1" id="q1-option2" value="London" data-points="0">
+                            <label class="form-check-label" for="q1-option2">London</label>
+                            <span class="points"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1" id="q1-option3" value="Rome" data-points="0">
+                            <label class="form-check-label" for="q1-option3">Rome</label>
+                            <span class="points"></span>
+                        </div>
+                    </div>
+
+                    <div class="wrap-input100 validate-input">
+                        <p>2. Who wrote "Romeo and Juliet"?</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2" id="q2-option1" value="Charles Dickens" data-points="0">
+                            <label class="form-check-label" for="q2-option1">Charles Dickens</label>
+                            <span class="points"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2" id="q2-option2" value="Jane Austen" data-points="0">
+                            <label class="form-check-label" for="q2-option2">Jane Austen</label>
+                            <span class="points"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2" id="q2-option3" value="William Shakespeare" data-points="3">
+                            <label class="form-check-label" for="q2-option3">William Shakespeare</label>
+                            <span class="points"></span>
+                        </div>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn" type="button" id="submitQuiz">
+                                Submit Quiz
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center p-t-115">
+                        <span class="txt1">
+                            Don’t have an account?
+                        </span>
+                        <a class="txt2" href="signup.html">
+                            Sign Up
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+    
+    <!-- JS -->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Display points when an option is selected
+        document.querySelectorAll('.form-check-input').forEach(function(input) {
+            input.addEventListener('change', function() {
+                var points = this.getAttribute('data-points');
+                this.parentNode.querySelector('.points').textContent = '(' + points + ' points)';
+                // Hide other points
+                this.parentNode.parentNode.querySelectorAll('.points').forEach(function(span) {
+                    if (span !== input.parentNode.querySelector('.points')) {
+                        span.textContent = '';
+                    }
+                });
+            });
+        });
+
+        // Handle quiz submission
+        document.getElementById('submitQuiz').addEventListener('click', function() {
+            var answers = {};
+            document.querySelectorAll('.form-check-input:checked').forEach(function(input) {
+                answers[input.getAttribute('name')] = input.value;
+            });
+            // Send answers to the server for processing or display
+            console.log(answers);
+        });
+    </script>
+</body>
+</html>
