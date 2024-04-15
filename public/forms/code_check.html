@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Login</title>
+	<title>Code Check</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -36,7 +36,7 @@
 			<div class="wrap-login100">
 				<form class="login100-form validate-form">
 					<span class="login100-form-title p-b-26">
-						Login
+						Verify Code
 					</span>
 
 
@@ -47,43 +47,36 @@
 						<!-- <i class="zmdi zmdi-font"></i> -->
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
-						<input class="input100" type="text" name="email">
-						<span class="focus-input100" data-placeholder="Email"></span>
+
+
+
+					<div class="wrap-input100 validate-input" data-validate="Enter Valid Code">
+						<input class="input100" type="number" name="code" maxlength="6"
+							oninput="this.value = this.value.slice(0, 6)">
+						<span class="focus-input100" data-placeholder="Enter 6-Digit Code"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<span class="btn-show-pass">
-							<i class="zmdi zmdi-eye"></i>
-						</span>
-						<input class="input100" type="password" name="pass">
-						<span class="focus-input100" data-placeholder="Password"></span>
-					</div>
+
+
+
+
+
+
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button class="login100-form-btn">
-								Login
+								Confirm Code
 							</button>
 						</div>
 					</div>
 
-					<div class="text-center p-t-115">
-						<span class="txt1">
-							Don’t have an account?
-						</span>
 
-						<a class="txt2" href="signup.html">
-							Sign Up
-						</a>
-					</div>
 				</form>
 				<!-- Forgot Password link -->
 				<div class="text-center p-t-20">
-					<a class="txt2" href="forgetpassword.html">
-						Forgot Password?
-					</a>
+
 				</div>
 			</div>
 		</div>
@@ -110,64 +103,83 @@
 	<script src="js/main.js"></script>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener("DOMContentLoaded", function () {
 			// Get the form element
 			const form = document.querySelector('.login100-form');
 
-			// Attach a submit event listener to the form
-			form.addEventListener('submit', function (event) {
-				// Prevent the default form submission
+			// Add a submit event listener to the form
+			form.addEventListener('submit', async function (event) {
+				// Prevent the form from submitting the default way
 				event.preventDefault();
 
-				// Access form data using FormData
-				const formData = new FormData(form);
+				// Get the code input element
+				const codeInput = form.querySelector('input[name="code"]');
 
-				// Extract values from the form data
-				const data = formData.get('email');
-				const password = formData.get('pass');
+				// Get the code value
+				const code = codeInput.value;
 
-				// Create an object with the form data
-				const loginData = {
-					data,
-					password
-				};
+				// Validate the code (it should be a 6-digit number)
+				if (!/^\d{6}$/.test(code)) {
+					alert("Please enter a valid 6-digit code.");
+					return;
+				}
 
-				// Send the login data to the server using fetch API
-				fetch('http://localhost:8800/auth/login', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(loginData),
-				})
-					.then(response => response.json())
-					.then(data => {
-						// Handle the server response
-						if (data.message == "success") {
-							localStorage.setItem("user",JSON.stringify(data.details))
-							// Login was successful
-							alert('Login successful!');
-							// Redirect the user to another page if needed
-							window.location.href = 'index.html'; // Example: redirect to dashboard
-						} else {
-							// There was an error during login
-							alert('invalid credentials');
+				const user = JSON.parse(localStorage.getItem('user'))
+				console.log(user._id)
+
+				try {
+					// Make an API call to verify the code
+					const response = await fetch(`http://localhost:8800/auth/verify?Id=${user._id}&code=${code}`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
 						}
-					})
-					.catch(error => {
-						// Handle network errors
-						console.error('Error:', error);
-						alert('An error occurred. Please try again.');
 					});
+
+					// Parse the JSON response
+					const data = await response.json();
+
+					if (response.ok) {
+						window.location.href = './confirm_password.html'
+					} else {
+						// Handle error response (response data can be used as needed)
+						alert(`Verification failed! Message: ${data.message}`);
+					}
+				} catch (error) {
+					// Handle any network or server errors
+					console.error("Error verifying code:", error);
+					alert("An error occurred while verifying the code. Please try again.");
+				}
 			});
 		});
 
-		function setCookie(name, value, days) {
-			const date = new Date();
-			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-			const expires = "expires=" + date.toUTCString();
-			document.cookie = `${name}=${value}; ${expires}; path=/`;
+		// Function to get the value of a cookie by name
+		function getCookie(name) {
+			// Get the `document.cookie` string and split it into an array of individual cookies
+			const cookies = document.cookie.split(';');
+
+			// Iterate over each cookie
+			for (let i = 0; i < cookies.length; i++) {
+				// Trim leading and trailing spaces from the cookie string
+				const cookie = cookies[i].trim();
+
+				// Split the cookie into name and value
+				const [cookieName, cookieValue] = cookie.split('=');
+
+				// Check if the cookie name matches the specified name
+				if (cookieName === name) {
+					// Return the value of the cookie
+					return decodeURIComponent(cookieValue);
+				}
+			}
+
+			// Return null if the cookie with the specified name was not found
+			return null;
 		}
+
+		// Example usage
+		
+
 	</script>
 
 </body>
