@@ -1,9 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import authRoute from "./routes/auth.js"
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
+import authRoute from "./routes/auth.js"
+import questionRoute from "./routes/addQuestion.js"
+import answerRoute from "./routes/answer.js"
+
 
 const app = express();
 dotenv.config();
@@ -27,8 +31,9 @@ app.use(cors())
 app.use(cookieParser())
 app.use(express.json());
 
-
 app.use("/auth", authRoute);
+app.use("/question", questionRoute);
+app.use("/answer", answerRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

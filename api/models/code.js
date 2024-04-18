@@ -5,6 +5,7 @@ const Schema = new mongoose.Schema(
     code: {
       type: Number,
       required: true,
+      unique:true
     }
   },
   { timestamps: true }

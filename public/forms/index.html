@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Quiz</title>
     <meta charset="UTF-8">
@@ -16,55 +17,21 @@
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
+
 <body>
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
+                <span class="login100-form-title p-b-26">
+                    Quiz
+                </span>
+                <span class="login100-form-title p-b-48">
+                    <a class='navbar-brand' href='../index.html'><img src="logo1.png"
+                            style="margin-top:20px;height: 90px;" alt="image"></a>
+                </span>
                 <form class="login100-form validate-form">
-                    <span class="login100-form-title p-b-26">
-                        Quiz
-                    </span>
-                    <span class="login100-form-title p-b-48">
-                        <a class='navbar-brand' href='../index.html'><img src="logo1.png" style="margin-top:20px;height: 90px;" alt="image"></a>
-                    </span>
 
-                    <div class="wrap-input100 validate-input">
-                        <p>1. What is the capital of France?</p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q1" id="q1-option1" value="Paris" data-points="2">
-                            <label class="form-check-label" for="q1-option1">Paris</label>
-                            <span class="points"></span>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q1" id="q1-option2" value="London" data-points="0">
-                            <label class="form-check-label" for="q1-option2">London</label>
-                            <span class="points"></span>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q1" id="q1-option3" value="Rome" data-points="0">
-                            <label class="form-check-label" for="q1-option3">Rome</label>
-                            <span class="points"></span>
-                        </div>
-                    </div>
 
-                    <div class="wrap-input100 validate-input">
-                        <p>2. Who wrote "Romeo and Juliet"?</p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q2" id="q2-option1" value="Charles Dickens" data-points="0">
-                            <label class="form-check-label" for="q2-option1">Charles Dickens</label>
-                            <span class="points"></span>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q2" id="q2-option2" value="Jane Austen" data-points="0">
-                            <label class="form-check-label" for="q2-option2">Jane Austen</label>
-                            <span class="points"></span>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q2" id="q2-option3" value="William Shakespeare" data-points="3">
-                            <label class="form-check-label" for="q2-option3">William Shakespeare</label>
-                            <span class="points"></span>
-                        </div>
-                    </div>
 
                     <div class="container-login100-form-btn">
                         <div class="wrap-login100-form-btn">
@@ -89,7 +56,7 @@
     </div>
 
     <div id="dropDownSelect1"></div>
-    
+
     <!-- JS -->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="vendor/animsition/js/animsition.min.js"></script>
@@ -100,14 +67,14 @@
     <script src="vendor/daterangepicker/daterangepicker.js"></script>
     <script src="vendor/countdowntime/countdowntime.js"></script>
     <script src="js/main.js"></script>
-    <script>
+    <!-- <script>
         // Display points when an option is selected
-        document.querySelectorAll('.form-check-input').forEach(function(input) {
-            input.addEventListener('change', function() {
+        document.querySelectorAll('.form-check-input').forEach(function (input) {
+            input.addEventListener('change', function () {
                 var points = this.getAttribute('data-points');
                 this.parentNode.querySelector('.points').textContent = '(' + points + ' points)';
                 // Hide other points
-                this.parentNode.parentNode.querySelectorAll('.points').forEach(function(span) {
+                this.parentNode.parentNode.querySelectorAll('.points').forEach(function (span) {
                     if (span !== input.parentNode.querySelector('.points')) {
                         span.textContent = '';
                     }
@@ -116,14 +83,161 @@
         });
 
         // Handle quiz submission
-        document.getElementById('submitQuiz').addEventListener('click', function() {
+        document.getElementById('submitQuiz').addEventListener('click', function () {
             var answers = {};
-            document.querySelectorAll('.form-check-input:checked').forEach(function(input) {
+            document.querySelectorAll('.form-check-input:checked').forEach(function (input) {
                 answers[input.getAttribute('name')] = input.value;
             });
             // Send answers to the server for processing or display
             console.log(answers);
         });
+    </script> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Fetch questions data from the backend
+                const response = await fetch('http://localhost:8800/question/getAll'); // Use your actual API endpoint here
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch questions: ${response.statusText}`);
+                }
+
+                // Parse the JSON response
+                const questions = await response.json();
+
+                // Populate the form with questions
+                const form = document.querySelector('.login100-form');
+
+                questions.forEach((question, index) => {
+                    // Create a container for the question
+                    const questionContainer = document.createElement('div');
+                    questionContainer.classList.add('wrap-input100', 'validate-input');
+
+                    // Create the question title element
+                    const questionTitle = document.createElement('p');
+                    questionTitle.textContent = `${index + 1}. ${question.title}`;
+                    questionContainer.appendChild(questionTitle);
+                    questionTitle.id = question._id;
+
+                    // Create radio button group for each option
+                    question.options.forEach((option, optionIndex) => {
+                        // Create radio button input
+                        const optionInput = document.createElement('input');
+                        optionInput.type = 'radio';
+                        optionInput.name = `q${index + 1}`;
+                        optionInput.id = `q${index + 1}-option${optionIndex + 1}`;
+                        optionInput.value = option.option;
+                        optionInput.classList.add('form-check-input');
+                        optionInput.setAttribute('data-points', option.points);
+
+                        // Create label for the radio button
+                        const optionLabel = document.createElement('label');
+                        optionLabel.classList.add('form-check-label');
+                        optionLabel.setAttribute('for', optionInput.id);
+                        optionLabel.textContent = option.details;
+
+                        // Create span for the points display
+                        const pointsSpan = document.createElement('span');
+                        pointsSpan.classList.add('points');
+
+                        // Create a wrapper div for the option and append the elements
+                        const optionWrapper = document.createElement('div');
+                        optionWrapper.classList.add('form-check');
+                        optionWrapper.appendChild(optionInput);
+                        optionWrapper.appendChild(optionLabel);
+                        optionWrapper.appendChild(pointsSpan);
+
+                        // Append the option to the question container
+                        questionContainer.appendChild(optionWrapper);
+                    });
+
+                    // Append the question container to the form
+                    form.insertBefore(questionContainer, form.querySelector('.container-login100-form-btn'));
+                });
+
+                // Add event listeners for option selection
+                document.querySelectorAll('.form-check-input').forEach(function (input) {
+                    input.addEventListener('change', function () {
+                        const points = this.getAttribute('data-points');
+                        this.parentNode.querySelector('.points').textContent = `(${points} points)`;
+                        // Hide other points
+                        this.parentNode.parentNode.querySelectorAll('.points').forEach(function (span) {
+                            if (span !== input.parentNode.querySelector('.points')) {
+                                span.textContent = '';
+                            }
+                        });
+                    });
+                });
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+            }
+        });
+
+
+        // Attach event listener to the submit button
+        document.getElementById('submitQuiz').addEventListener('click', async function () {
+            // Gather answers from the form
+            const answers = [];
+            document.querySelectorAll('.wrap-input100').forEach((questionWrapper, index) => {
+                const form = document.querySelector('.login100-form');
+                const p = form.querySelector('.wrap-input100 > p')
+                const questionId = p.id;
+                const selectedInput = questionWrapper.querySelector('.form-check-input:checked');
+                
+                if (selectedInput) {
+                    const answerValue = selectedInput.value;
+                    const obtainPoints = parseInt(selectedInput.getAttribute('data-points'), 10);
+
+                    // Add the answer to the answers array
+                    answers.push({
+                        question: questionId,
+                        obtainPoints: obtainPoints
+                    });
+                }
+            });
+
+            // Define the user ID (e.g., from session or authentication context)
+            const user = JSON.parse(localStorage.getItem('user'))
+            if(user == null) {
+                window.location.href = './signin.html';
+                return
+            }
+            const userId = user._id;
+
+            // Send the answers to the backend
+            try {
+                const response = await fetch('http://localhost:8800/answer/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user: userId,
+                        marks: answers,
+                    }),
+                });
+
+                // Parse the JSON response
+                const result = await response.json();
+
+                // Handle server response
+                if (response.ok) {
+                    // Handle successful submission (e.g., display success message)
+                    alert('Quiz submitted successfully!');
+                    // Optionally, you can redirect or reset the form after successful submission
+                } else {
+                    // Handle error response (e.g., display error message)
+                    alert(`Error submitting quiz: ${result.error}`);
+                }
+            } catch (error) {
+                // Handle fetch error (e.g., network issues)
+                console.error('Error submitting quiz:', error);
+                alert('An error occurred while submitting the quiz. Please try again later.');
+            }
+        });
+
+
     </script>
 </body>
+
 </html>

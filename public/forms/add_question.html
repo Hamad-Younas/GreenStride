@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Add Quiz Question</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+        /* Custom CSS styles */
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 70%;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        }
+
+        .form-group input[type="number"] {
+            width: 30%;
+        }
+
+        .form-group input[type="number"]:focus {
+            width: 30%;
+        }
+
+        .form-group .full-width {
+            width: 100%;
+        }
+
+        .wrap-login100 {
+            width: 65%;
+            padding: 77px 55px 33px 60px;
+        }
+
+        @media (max-width: 576px) {
+            .wrap-login100 {
+                width: 100%;
+                padding: 77px 15px 33px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form">
+                    <span class="login100-form-title p-b-26">
+                        Add Question
+                    </span>
+                    <span class="login100-form-title p-b-48">
+                        <a class='navbar-brand' href='../index.html'><img src="logo1.png"
+                                style="margin-top:20px;height: 90px;" alt="image"></a>
+                    </span>
+
+                    <!-- Dropdown for Question Type -->
+                    <div class="form-group">
+                        <label for="questionType">Question Type <span class="text-danger">*</span></label>
+                        <select id="questionType" name="questionType" class="form-control" required>
+                            <option value="" disabled selected>Select a question type</option>
+                            <option value="Diet and Food Consumption">Diet and Food Consumption</option>
+                            <option value="Housing and Home Efficiency">Housing and Home Efficiency</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Waste Management and Recycling">Waste Management and Recycling</option>
+                            <option value="Environmental Engagement and Lifestyle">Environmental Engagement and
+                                Lifestyle</option>
+                            <option value="Lifestyle and Consumption">Lifestyle and Consumption</option>
+                            <option value="Engagement and Advocacy">Engagement and Advocacy</option>
+                        </select>
+                    </div>
+
+                    <!-- Text field for Question Title -->
+                    <div class="form-group">
+                        <label for="questionTitle">Question Title <span class="text-danger">*</span></label>
+                        <input type="text" id="questionTitle" name="questionTitle" class="form-control"
+                            placeholder="Enter the question title" style="width:100%;" required>
+                    </div>
+
+                    <!-- Text fields for options with inline number fields for points -->
+                    <div class="form-group">
+                        <label for="option1">Option 1 <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="text" id="option1" name="option1" class="form-control" placeholder="Option 1"
+                                required>
+                            <input type="number" id="points1" name="points1" class="form-control" style="width: 30%;"
+                                placeholder="Points">
+                        </div>
+                    </div>
+
+                    <!-- Repeat this block for each additional option and points pair (option2, points2, etc.) -->
+                    <div class="form-group">
+                        <label for="option2">Option 2</label>
+                        <div class="input-group">
+                            <input type="text" id="option2" name="option2" class="form-control" placeholder="Option 2">
+                            <input type="number" id="points2" name="points2" class="form-control" style="width: 30%;"
+                                placeholder="Points">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="option3">Option 3</label>
+                        <div class="input-group">
+                            <input type="text" id="option3" name="option3" class="form-control" placeholder="Option 3">
+                            <input type="number" id="points3" name="points3" class="form-control" style="width: 30%;"
+                                placeholder="Points">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="option4">Option 4</label>
+                        <div class="input-group">
+                            <input type="text" id="option4" name="option4" class="form-control" placeholder="Option 4">
+                            <input type="number" id="points4" name="points4" class="form-control" style="width: 30%;"
+                                placeholder="Points">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="option5">Option 5</label>
+                        <div class="input-group">
+                            <input type="text" id="option5" name="option5" class="form-control" placeholder="Option 5">
+                            <input type="number" id="points5" name="points5" class="form-control" style="width: 30%;"
+                                placeholder="Points">
+                        </div>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn">
+                                Add Question
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <script src="js/main.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Listen for form submission
+            document.querySelector('.login100-form').addEventListener('submit', async (event) => {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Extract form data
+                const form = event.target;
+                const formData = new FormData(form);
+
+                // Create an object to hold the data
+                const questionData = {
+                    type: formData.get('questionType'),
+                    title: formData.get('questionTitle'),
+                    options: []
+                };
+
+                // Collect options and points
+                for (let i = 1; i <= 5; i++) {
+                    const details = formData.get(`option${i}`);
+                    const points = formData.get(`points${i}`);
+                    if (details && points) {
+                        questionData.options.push({
+                            option: i,
+                            details: details,
+                            points: points
+                        });
+                    }
+                }
+
+                try {
+                    // Send a POST request to the server endpoint
+                    const response = await fetch('http://localhost:8800/question/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(questionData),
+                    });
+
+                    // Parse the JSON response
+                    const result = await response.json();
+
+                    // Handle server response
+                    if (response.ok) {
+                        // Handle successful submission (e.g., display success message)
+                        alert('Question added successfully!');
+                        // Optionally, you can reset the form after successful submission
+                        form.reset();
+                    } else {
+                        // Handle error response (e.g., display error message)
+                        alert(`Error adding question: ${result.error}`);
+                    }
+                } catch (error) {
+                    // Handle fetch error (e.g., network issues)
+                    console.error('Error adding question:', error);
+                    alert('An error occurred while adding the question. Please try again later.');
+                }
+            });
+
+        })
+    </script>
+</body>
+
+</html>

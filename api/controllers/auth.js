@@ -128,6 +128,7 @@ export const verifyLatestCode = async (req, res, next) => {
     const userId = req.query.Id;
     const userCode = parseInt(req.query.code);
 
+    console.log(userId)
     // Validate the presence of the user ID
     if (!userId) {
       return res.status(400).json({ message: 'User ID is required.' });
