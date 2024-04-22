@@ -7,6 +7,8 @@ import cors from "cors";
 import authRoute from "./routes/auth.js"
 import questionRoute from "./routes/addQuestion.js"
 import answerRoute from "./routes/answer.js"
+import taskRoute from "./routes/task.js"
+import taskAnsRoute from "./routes/taskAnswer.js"
 
 
 const app = express();
@@ -34,6 +36,8 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/question", questionRoute);
 app.use("/answer", answerRoute);
+app.use("/task", taskRoute);
+app.use("/taskResponse", taskAnsRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

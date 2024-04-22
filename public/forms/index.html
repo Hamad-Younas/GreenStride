@@ -124,7 +124,7 @@
                         // Create radio button input
                         const optionInput = document.createElement('input');
                         optionInput.type = 'radio';
-                        optionInput.name = `q${index + 1}`;
+                        optionInput.name = question._id;
                         optionInput.id = `q${index + 1}-option${optionIndex + 1}`;
                         optionInput.value = option.option;
                         optionInput.classList.add('form-check-input');
@@ -179,14 +179,12 @@
             // Gather answers from the form
             const answers = [];
             document.querySelectorAll('.wrap-input100').forEach((questionWrapper, index) => {
-                const form = document.querySelector('.login100-form');
-                const p = form.querySelector('.wrap-input100 > p')
-                const questionId = p.id;
                 const selectedInput = questionWrapper.querySelector('.form-check-input:checked');
                 
                 if (selectedInput) {
                     const answerValue = selectedInput.value;
                     const obtainPoints = parseInt(selectedInput.getAttribute('data-points'), 10);
+                    const questionId = selectedInput.name;
 
                     // Add the answer to the answers array
                     answers.push({
@@ -224,7 +222,7 @@
                 if (response.ok) {
                     // Handle successful submission (e.g., display success message)
                     alert('Quiz submitted successfully!');
-                    // Optionally, you can redirect or reset the form after successful submission
+                    window.location.href = '../user dashboard/index.html'
                 } else {
                     // Handle error response (e.g., display error message)
                     alert(`Error submitting quiz: ${result.error}`);
