@@ -144,11 +144,31 @@
 					.then(data => {
 						// Handle the server response
 						if (data.message == "success") {
-							localStorage.setItem("user",JSON.stringify(data.details))
+							localStorage.setItem("user", JSON.stringify(data.details))
 							// Login was successful
 							alert('Login successful!');
 							// Redirect the user to another page if needed
-							window.location.href = 'index.html'; // Example: redirect to dashboard
+							fetch(`http://localhost:8800/answer/get?Id=${data.details._id}`, {
+								method: 'GET',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+							})
+								.then(response => response.json())
+								.then(data => {
+									if (data.length > 0) {
+										window.location.href = '../user dashboard/index.html'
+									} else {
+										// There was an error during the process
+										window.location.href = 'index.html'; // Example: redirect to dashboard
+									}
+								})
+								.catch(error => {
+									// Handle network errors
+									console.error('Error:', error);
+									alert('An error occurred. Please try again.');
+								});
+							
 						} else {
 							// There was an error during login
 							alert('invalid credentials');

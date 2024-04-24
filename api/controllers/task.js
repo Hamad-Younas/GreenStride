@@ -12,11 +12,12 @@ export const getTaskQuestions = async (req, res) => {
     const startIndex = (dayOfYear - 1) % 3;
 
     // Get the three questions starting from the calculated index
-    const task = await Task.find().skip(startIndex).limit(3);
+    const task = await Task.find().skip(startIndex * 3).limit(3);
 
     res.status(200).json({ task });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 

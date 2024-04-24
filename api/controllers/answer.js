@@ -32,6 +32,22 @@ export const getAll = async (req, res, next) => {
   }
 }
 
+export const get = async (req, res, next) => {
+  try {
+    // Get the user ID from the request parameters, query string, or wherever it's coming from
+    const userId = req.query.Id; // Assuming user ID is passed in the URL parameter
+    // Retrieve answers associated with the specific user
+    const userAnswers = await Answer.find({ user: userId }).populate('user');
+
+    // Send the user's answers as the response
+    res.status(200).json(userAnswers);
+  } catch (err) {
+    // Pass any errors to the error handling middleware
+    next(err);
+  }
+}
+
+
 export const getUserAnswersSummary = async (req, res, next) => {
   try {
     const userId = req.query.Id; // Retrieve the user ID from the query parameters

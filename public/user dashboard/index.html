@@ -71,12 +71,12 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2" id="usernamespan">K. Anderson</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
+              <h6 id="usernametag">Kevin Anderson</h6>
 
             </li>
 
@@ -84,7 +84,13 @@
             <li>
               <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
+                <span onclick="handlelogout()">Sign Out</span>
+                <script>
+                  function handlelogout(){
+                    localStorage.setItem("user",null)
+                    window.location.href = "../forms/signin.html"
+                  }
+                </script>
               </a>
             </li>
 
@@ -104,7 +110,7 @@
       <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -728,8 +734,28 @@
         .catch(error => {
           console.error('Error fetching user scores:', error);
         });
+      fetchusername()
       fetchdata()
     });
+
+    function fetchusername() {
+      const userData = JSON.parse(localStorage.getItem('user'));
+
+      // Extract user ID from user data
+      const userId = userData ? userData._id : null;
+
+      // Check if user ID is available
+      if (!userId) {
+        window.location.href = "../forms/signin.html"
+        return;
+      }
+      else {
+        const da = document.getElementById("usernamespan")
+        const da1 = document.getElementById("usernametag")
+        da.innerText = userData ? userData.username : null
+        da1.innerText = userData ? userData.username : null
+      }
+    }
 
   </script>
 </body>
