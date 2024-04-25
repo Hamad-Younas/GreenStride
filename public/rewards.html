@@ -6,11 +6,11 @@
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">   
     <!-- Mobile Metas -->
-    <link rel="stylesheet" href="portfolio.css">
+    <link rel="stylesheet" href="Rewards.css">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
  
      <!-- Site Metas -->
-    <title>GreenStride | Portfolio</title>  
+    <title>GreenStride | Rewards</title>  
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -79,7 +79,7 @@
 
 </head>
 <body>
-	<div class="top-bar">
+    <div class="top-bar">
        <header class="header header_style_01">
         <nav class="megamenu navbar navbar-default">
             <div class="container-fluid">
@@ -110,21 +110,21 @@
         </nav>
     </header>
 
-   	<div class="banner-area banner-bg-1">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="banner">
-						<h2>Rewards</h2>
-						<ul class="page-title-link">
-							<li><a href="#">Home</a></li>
-							<li><a href="#">Rewards</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="banner-area banner-bg-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="banner">
+                        <h2>Rewards</h2>
+                        <ul class="page-title-link">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Rewards</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="portfolio" class="section wb">
         <div class="container">
@@ -162,7 +162,7 @@
 
               </div>
          <div class="d-grid gap-2 mt-3">
-                              <button type="button" style="width:80%;" class="btn btn-lg btn-success">Claim Reward</button>
+                              <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
               </div>
           </div><!-- End Card with an image on left -->
             
@@ -194,7 +194,7 @@
 
               </div>
          <div class="d-grid gap-2 mt-3">
-                              <button type="button" style="width:80%;" class="btn btn-lg btn-success">Claim Reward</button>
+                              <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
               </div>
           </div><!-- End Card with an image on left -->
             
@@ -227,7 +227,7 @@
 
               </div>
          <div class="d-grid gap-2 mt-3">
-                               <button type="button" style="width:80%;" class="btn btn-lg btn-success">Claim Reward</button>
+                               <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
               </div>
           </div><!-- End Card with an image on left -->
             
@@ -259,7 +259,7 @@
 
               </div>
          <div class="d-grid gap-2 mt-3">
-                              <button type="button" style="width:80%;" class="btn btn-lg btn-success">Claim Reward</button>
+                              <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
               </div>
           </div><!-- End Card with an image on left -->
             
@@ -291,7 +291,7 @@
 
               </div>
          <div class="d-grid gap-2 mt-3">
-                              <button type="button" style="width:80%;" class="btn btn-lg btn-success">Claim Reward</button>
+                              <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
               </div>
           </div><!-- End Card with an image on left -->
             
@@ -324,7 +324,7 @@
 
               </div>
          <div class="d-grid gap-2 mt-3">
-                              <button type="button" style="width:80%;" class="btn btn-lg btn-success">Claim Reward</button>
+                              <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
               </div>
           </div><!-- End Card with an image on left -->
             
@@ -334,8 +334,68 @@
   <!--End Reward Box -->
 
 
+<!-- Popup CSS Start -->
+<style type="text/css">
+   .popupContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.popupContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 999; /* Ensure the close button appears above other elements */
+}
+
+
+.popupBtn {
+  margin: 10px;
+  padding: 10px 20px;
+
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+</style>
+<!-- Popup CSS END -->
 
              
+<!-- Award Popup -->
+
+<div class="popupContainer">
+  <div class="popupContent">
+    <button class="closeBtn">Close</button>
+    <h1 style="font-weight:600; font-size:35px;">Reward Title</h1>
+     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script><dotlottie-player src="https://lottie.host/155faca9-4ae4-40bd-9ad3-e53df53d1898/vMGdFLQn0L.json" background="transparent" speed="1" style="width: 450px; height: 450px" direction="1" playMode="normal" loop autoplay ></dotlottie-player>
+    <p style="font-size: 18px;">Description</p>
+  </div>
+</div>
+<!-- Award Popup End -->
 
    
 
@@ -414,6 +474,50 @@
     <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
     <!-- ALL JS FILES -->
+
+
+<!-- Popup JS Start-->
+
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+  // Get all popup buttons
+  var popupBtns = document.querySelectorAll('.popupBtn');
+  
+  // Get the popup container
+  var popupContainer = document.querySelector('.popupContainer');
+  
+  // Get the close button inside the popup
+  var closeBtn = document.querySelector('.closeBtn');
+
+  // Function to open the popup
+  function openPopup() {
+    popupContainer.style.display = 'block';
+  }
+
+  // Function to close the popup
+  function closePopup() {
+    popupContainer.style.display = 'none';
+  }
+
+  // Event listener for each popup button
+  popupBtns.forEach(function(btn) {
+    btn.addEventListener('click', openPopup);
+  });
+
+  // Event listener for the close button
+  closeBtn.addEventListener('click', closePopup);
+
+  // Event listener to close the popup if user clicks outside of it
+  window.addEventListener('click', function(event) {
+    if (event.target === popupContainer) {
+      closePopup();
+    }
+  });
+});
+
+</script>
+
+<!-- Popup JS end -->
     <script src="js/all.js"></script>
     <!-- ALL PLUGINS -->
     <script src="js/custom.js"></script>
@@ -422,5 +526,4 @@
     <script async id="slcLiveChat" src="../widget.sonetel.com/SonetelWidget.min.js" data-account-id="208327372"></script>
 </body>
 
-<!-- Mirrored from tierslimited.com/portfolio by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 06 Apr 2024 19:27:37 GMT -->
 </html>
