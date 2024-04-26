@@ -58,21 +58,10 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li><a class='active' href='index.html'>Home</a></li>
 
-                            <li class="w-full"><a class="hidden" href='./forms/signup.html'>Signup</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/code_check.html'>Code Check</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/confirm_password.html'>Confirm Pass</a>
-                            </li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
-                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a href='about-us.html'>About us</a></li>
+                            <li class="w-full"><a href='contact.html'>Contact Us</a></li>
+                            <li class="w-full"><a href='blogs.html'>Blog</a></li>
+                            <li class="w-full"><a href='jobs.html'>Reward</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
@@ -81,10 +70,10 @@
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/index.html'>Quiz</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/forgetpassword.html'>Forget Pass</a></li>
-                            <li> <a href="./forms/signin.html" class="btn btn-light btn-radius btn-brd grd1 " id="signinbutton"
+                            <li> <a href="./forms/signin.html" class="btn btn-light btn-radius btn-brd grd1 "
+                                    id="signinbutton"
                                     style="padding: 15px !important; border:solid 2px #afc845 !important; color: #afc845;border-radius: 40px; ">Signin</a>
                             </li>
-
                         </ul>
 
                     </div>
@@ -573,7 +562,27 @@
     <script async id="slcLiveChat" src="../widget.sonetel.com/SonetelWidget.min.js"
         data-account-id="208327372"></script>
 
-        
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            function fetchusername() {
+                const userData = JSON.parse(localStorage.getItem('user'));
+
+                // Extract user ID from user data
+                const userId = userData ? userData._id : null;
+
+                // Check if user ID is available
+                if (!userId) {
+                    return;
+                }
+                else {
+                    const anc = document.getElementById("signinbutton")
+                    anc.innerText = "Logout"
+                }
+            }
+            fetchusername()
+        })
+    </script>
+
 </body>
 
 </html>
