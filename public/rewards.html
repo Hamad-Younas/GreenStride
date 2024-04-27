@@ -99,14 +99,33 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href='index.html'>Home</a></li>
-              <li><a class='active' href='index.html'>Rewards</a></li>
-              <li><a href='./forms/signup.html'>Signup</a></li>
-              <li><a href='./forms/code_check.html'>Code Check</a></li>
-              <li><a href='./forms/add_question.html'>Add Question</a></li>
-              <li><a href='./forms/quiz.html'>Quiz</a></li>
-              <li><a href='./forms/forgetpassword.html'>Forget Pass</a></li>
-              <li> <a href="./forms/signin.html" class="btn btn-light btn-radius btn-brd grd1 "
+              <li><a class='w-full' href='index.html'>Home</a></li>
+              <li class="w-full"><a href='about-us.html'>About us</a></li>
+              <li class="w-full"><a href='contact.html'>Contact Us</a></li>
+              <li class="w-full"><a href='blogs.html'>Blog</a></li>
+              <li><a class="active" href='rewards.html'>Reward</a></li>
+              <li class="hidden" id="dashboard"><a href='./user dashboard/index.html'>Dashboard</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/index.html'>Quiz</a></li>
+              <li class="w-full"><a class="hidden" href='./forms/forgetpassword.html'>Forget Pass</a></li>
+              <li> <a href="./forms/signin.html" onclick="handleLogout()" class="btn btn-light btn-radius btn-brd grd1 " id="signinbutton"
                   style="padding: 15px !important; border:solid 2px #afc845 !important; color: #afc845;border-radius: 40px; ">Signin</a>
               </li>
 
@@ -137,7 +156,6 @@
       <div class="container">
         <div class="section-title text-center">
           <h3>Rewards</h3>
-          <p class="lead">lorem ipsom lorem ipsom lorem ipsom lorem ipsom lorem ipsom lorem ipsom</p>
         </div><!-- end title -->
       </div><!-- end container -->
 
@@ -145,277 +163,69 @@
       <center>
         <!-- Portfolio -->
         <div class="card-deck" style="margin: 30px;">
+          <div id="couponContainer"></div>
+        </div>
 
-          <!-- Reward Box 1-->
-          <div class="card">
-            <div class="card-body">
-              <h2 class="">Reward <span>| Box</span></h2>
-              <!-- Card with an image on left -->
+        <!-- Popup CSS Start -->
+        <style type="text/css">
+          .popupContainer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+          }
 
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/logo.png" style="with:120px;height:120px;" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h3>Just Eat Vouchur</h3>
-                    <h1 style="color:gold; font-size: 60px;">1,500</h1>
-                    <h3 class="">Points</h3>
-                    <hr>
+          .popupContent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+          }
 
-                    <p class="card-text">Claim this reward and gain 30% off on your next order</p>
+          .closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 999;
+          }
 
-                  </div>
-
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
-                </div>
-              </div><!-- End Card with an image on left -->
-
-
-            </div>
+          .popupBtn {
+            margin: 10px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+        </style>
+        <div class="popupContainer">
+          <div class="popupContent">
+            <button class="closeBtn">Close</button>
+            <h1 style="font-weight:600; font-size:35px;">Reward Title</h1>
+            <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+              type="module"></script><dotlottie-player
+              src="https://lottie.host/155faca9-4ae4-40bd-9ad3-e53df53d1898/vMGdFLQn0L.json" background="transparent"
+              speed="1" style="width: 450px; height: 450px" direction="1" playMode="normal" loop
+              autoplay></dotlottie-player>
+            <p style="font-size: 18px;">Description</p>
           </div>
-          <!--End Reward Box -->
+        </div>
 
-          <!-- Reward Box 2-->
-          <div class="card">
-            <div class="card-body">
-              <h2 class="">Reward <span>| Box</span></h2>
-              <!-- Card with an image on left -->
-
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/logo.png" style="with:120px;height:120px;" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h3>Just Eat Vouchur</h3>
-                    <h1 style="color:gold; font-size: 60px;">1,500</h1>
-                    <h3 class="">Points</h3>
-                    <hr>
-
-                    <p class="card-text">Claim this reward and gain 30% off on your next order</p>
-
-                  </div>
-
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
-                </div>
-              </div><!-- End Card with an image on left -->
-
-
-            </div>
-          </div>
-          <!--End Reward Box -->
-
-
-          <!-- Reward Box 3-->
-          <div class="card">
-            <div class="card-body">
-              <h2 class="">Reward <span>| Box</span></h2>
-              <!-- Card with an image on left -->
-
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/logo.png" class="img-fluid rounded-start" style="with:120px;height:120px;" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h3>Just Eat Vouchur</h3>
-                    <h1 style="color:gold;font-size: 60px; ">1,500</h1>
-                    <h3 class="">Points</h3>
-                    <hr>
-
-                    <p class="card-text">Claim this reward and gain 30% off on your next order</p>
-
-                  </div>
-
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
-                </div>
-              </div><!-- End Card with an image on left -->
-
-
-            </div>
-          </div>
-          <!--End Reward Box -->
-
-          <!-- Reward Box 4-->
-          <div class="card">
-            <div class="card-body">
-              <h2 class="">Reward <span>| Box</span></h2>
-              <!-- Card with an image on left -->
-
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/logo.png" class="img-fluid rounded-start" style="with:120px;height:120px;" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h3>Just Eat Vouchur</h3>
-                    <h1 style="color:gold;font-size: 60px; ">1,500</h1>
-                    <h3 class="">Points</h3>
-                    <hr>
-
-                    <p class="card-text">Claim this reward and gain 30% off on your next order</p>
-
-                  </div>
-
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
-                </div>
-              </div><!-- End Card with an image on left -->
-
-
-            </div>
-          </div>
-          <!--End Reward Box -->
-
-          <!-- Reward Box 5-->
-          <div class="card">
-            <div class="card-body">
-              <h2 class="">Reward <span>| Box</span></h2>
-              <!-- Card with an image on left -->
-
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/logo.png" class="img-fluid rounded-start" style="with:120px;height:120px;" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h3>Just Eat Vouchur</h3>
-                    <h1 style="color:gold; font-size: 60px;">1,500</h1>
-                    <h3 class="">Points</h3>
-                    <hr>
-
-                    <p class="card-text">Claim this reward and gain 30% off on your next order</p>
-
-                  </div>
-
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
-                </div>
-              </div><!-- End Card with an image on left -->
-
-
-            </div>
-          </div>
-          <!--End Reward Box -->
-
-
-          <!-- Reward Box 6-->
-          <div class="card">
-            <div class="card-body">
-              <h2 class="">Reward <span>| Box</span></h2>
-              <!-- Card with an image on left -->
-
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/logo.png" class="img-fluid rounded-start" style="with:120px;height:120px;" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h3>Just Eat Vouchur</h3>
-                    <h1 style="color:gold; font-size: 60px;">1,500</h1>
-                    <h3 class="">Points</h3>
-                    <hr>
-
-                    <p class="card-text">Claim this reward and gain 30% off on your next order</p>
-
-                  </div>
-
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button type="button" style="width:80%;" class="btn btn-lg btn-success popupBtn">Claim Reward</button>
-                </div>
-              </div><!-- End Card with an image on left -->
-
-
-            </div>
-          </div>
-          <!--End Reward Box -->
-
-
-          <!-- Popup CSS Start -->
-          <style type="text/css">
-            .popupContainer {
-              display: none;
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background-color: rgba(0, 0, 0, 0.5);
-              z-index: 9999;
-            }
-
-            .popupContent {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              background-color: white;
-              padding: 20px;
-              border-radius: 10px;
-            }
-
-            .closeBtn {
-              position: absolute;
-              top: 10px;
-              right: 10px;
-              padding: 5px 10px;
-              background-color: gray;
-              color: white;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              z-index: 999;
-              /* Ensure the close button appears above other elements */
-            }
-
-
-            .popupBtn {
-              margin: 10px;
-              padding: 10px 20px;
-
-              color: white;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-            }
-          </style>
-          <!-- Popup CSS END -->
-
-
-          <!-- Award Popup -->
-
-          <div class="popupContainer">
-            <div class="popupContent">
-              <button class="closeBtn">Close</button>
-              <h1 style="font-weight:600; font-size:35px;">Reward Title</h1>
-              <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
-                type="module"></script><dotlottie-player
-                src="https://lottie.host/155faca9-4ae4-40bd-9ad3-e53df53d1898/vMGdFLQn0L.json" background="transparent"
-                speed="1" style="width: 450px; height: 450px" direction="1" playMode="normal" loop
-                autoplay></dotlottie-player>
-              <p style="font-size: 18px;">Description</p>
-            </div>
-          </div>
-          <!-- Award Popup End -->
-
-
-
-
-
-
-
-
-        </div><!-- end container -->
+        <!-- Popup CSS END -->
+        <!-- Award Popup End -->
     </div><!-- end section -->
 
 
@@ -537,6 +347,228 @@
     <script src="js/hoverdir.js"></script>
     <script async id="slcLiveChat" src="../widget.sonetel.com/SonetelWidget.min.js"
       data-account-id="208327372"></script>
+
+    <script>
+
+      async function updateTaskRewards(userId, reward) {
+        try {
+          const response = await fetch('http://localhost:8800/taskResponse/updateReward', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId, reward })
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to update task rewards');
+          }
+
+          const data = await response.json();
+          console.log(data.message); // Log success message
+        } catch (error) {
+          console.error('Error updating task rewards:', error.message);
+          // Handle error (e.g., show error message to user)
+        }
+      }
+
+      async function getUserRewards(userId) {
+        try {
+          const response = await fetch(`http://localhost:8800/userReward/get/${userId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch user rewards');
+          }
+          const data = await response.json();
+          return data.userRewards;
+        } catch (error) {
+          console.error('Error fetching user rewards:', error);
+          return null;
+        }
+      }
+
+      async function getUserTotalRewards(userId) {
+        try {
+          const response = await fetch(`http://localhost:8800/taskResponse/getReward/${userId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch user rewards');
+          }
+          const data = await response.json();
+          return data.totalRewards;
+        } catch (error) {
+          console.error('Error fetching user rewards:', error);
+          return null;
+        }
+      }
+
+      function findFirstMissingCode(codes, userRewards) {
+        const codesArray = codes.split(',');
+        for (let i = 0; i < codesArray.length; i++) {
+          const code = codesArray[i];
+          console.log("code", code)
+          const found = userRewards.some(reward => reward.code === code);
+          if (!found) {
+            return code;
+          }
+        }
+        return null; // If all codes are present in user rewards
+      }
+      // Function to make HTTP GET request
+      async function openPopup(points, title, code, id) {
+        try {
+
+          // Get the user ID from local storage
+          const user = JSON.parse(localStorage.getItem('user'));
+          if(user == null){
+            return
+          }
+          const userId = user._id;
+          const TotalRewards = await getUserTotalRewards(userId);
+          if (points <= TotalRewards) {
+            // Fetch user rewards from the backend
+            const userRewards = await getUserRewards(userId);
+
+            // Find the first missing code
+            let desirecode;
+            if (userRewards) {
+              console.log('User rewards:', userRewards.rewards);
+              desirecode = findFirstMissingCode(code, userRewards.rewards);
+            } else {
+              // If no user rewards found, use the first code from the input
+              const codesArray = code.split(',');
+              desirecode = codesArray[0];
+            }
+            console.log('Desired code:', desirecode);
+
+            // Prepare reward data for backend request
+            const rewardData = {
+              user: userId,
+              rewards: {
+                id: id,
+                code: desirecode,
+                exp: true
+              }
+            };
+
+            // Make an HTTP POST request to the backend
+            const response = await fetch('http://localhost:8800/userReward/add', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(rewardData)
+            });
+
+            // Check if the request was successful
+            const responseData = await response.json();
+            if (response.ok) {
+              updateTaskRewards(userId, points)
+              // Handle success
+              const popupContainer = document.querySelector('.popupContainer');
+              const popupTitle = popupContainer.querySelector('h1');
+              const popupDescription = popupContainer.querySelector('p');
+
+              // Populate popup with reward data
+              popupTitle.textContent = title;
+              popupDescription.textContent = desirecode;
+
+              // Show the popup
+              alert('Reward claimed successfully');
+              popupContainer.style.display = 'block';
+            } else {
+              // Handle errors
+              console.error('Failed to claim reward:', responseData.message);
+            }
+          }
+          else {
+            alert("you don't have enough points")
+          }
+        } catch (error) {
+          console.error('Error claiming reward:', error);
+        }
+      }
+
+
+
+      async function fetchData() {
+        try {
+          const response = await fetch('http://localhost:8800/reward/get'); // Assuming your backend API endpoint is /api/rewards
+          const data = await response.json();
+
+          // Loop through each reward
+          let index = 1;
+          data.forEach(reward => {
+            const cardDeck = document.querySelector('.card-deck');
+
+            // Create reward box
+            const rewardBox = document.createElement('div');
+            rewardBox.classList.add('card');
+
+            // Populate reward box with data
+            rewardBox.innerHTML = `
+                <div class="card-body">
+                  <h2 class="">Reward <span>| Box</span></h2>
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="images/rewards/Picture${index++}.png" class="img-fluid rounded-start" style="width: 120px; height: 120px;" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h3>${reward.name}</h3>
+                        <h1 style="color: gold; font-size: 60px;">${reward.points}</h1>
+                        <h3 class="">Points</h3>
+                        <hr>
+                        <p class="card-text">${reward.des}</p>
+                      </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-3">
+                      <button type="button" style="width: 80%;" class="btn btn-lg btn-success popupBtn" onclick="openPopup('${reward.points}','${reward.name}', '${reward.codes}', '${reward._id}')">Claim Reward</button>
+                    </div>
+                  </div>
+                </div>
+              `;
+
+            // Append reward box to card deck
+            cardDeck.appendChild(rewardBox);
+          });
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+
+      // Fetch data when DOM content is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+
+        fetchData();
+      });
+    </script>
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        function fetchusername() {
+          const userData = JSON.parse(localStorage.getItem('user'));
+
+          // Extract user ID from user data
+          const userId = userData ? userData._id : null;
+
+          // Check if user ID is available
+          if (!userId) {
+            return;
+          }
+          else {
+            const anc = document.getElementById("signinbutton")
+            anc.innerText = "Logout"
+            document.getElementById("dashboard").classList.remove("hidden");
+          }
+        }
+        fetchusername()
+      })
+    </script>
+    <script>
+      function handleLogout() {
+        localStorage.setItem("user", null)
+        window.location.reload();
+      }
+    </script>
+
 </body>
 
 </html>

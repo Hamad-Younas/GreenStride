@@ -38,6 +38,11 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <style>
+    .rewardLi {
+      margin-right: 10px;
+    }
+  </style>
 </head>
 
 <body class="toggle-sidebar">
@@ -65,7 +70,7 @@
 
 
 
-
+        <li class="rewardLi" id="rewardLi">Reward: 9999999</li>
 
         <li class="nav-item dropdown pe-3">
 
@@ -86,8 +91,8 @@
                 <i class="bi bi-box-arrow-right"></i>
                 <span onclick="handlelogout()">Sign Out</span>
                 <script>
-                  function handlelogout(){
-                    localStorage.setItem("user",null)
+                  function handlelogout() {
+                    localStorage.setItem("user", null)
                     window.location.href = "../forms/signin.html"
                   }
                 </script>
@@ -578,8 +583,7 @@
   <script>
     async function fetchdata() {
       const user = JSON.parse(localStorage.getItem('user'))
-      if(!user)
-      {
+      if (!user) {
         window.location.href = '../forms/signin.html'
         return
       }
@@ -675,7 +679,7 @@
         const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
         const day = String(currentDate.getDate()).padStart(2, '0');
         const formattedDate = `${year}-${month}-${day}`;
-                // Construct data to send to the backend
+        // Construct data to send to the backend
         const data = {
           user: userId,
           task: taskId,
@@ -750,11 +754,12 @@
       fetchdata()
     });
 
-    function fetchusername() {
+    async function fetchusername() {
       const userData = JSON.parse(localStorage.getItem('user'));
 
       // Extract user ID from user data
       const userId = userData ? userData._id : null;
+      await getUserTotalRewards(userId);
 
       // Check if user ID is available
       if (!userId) {
@@ -766,6 +771,21 @@
         const da1 = document.getElementById("usernametag")
         da.innerText = userData ? userData.username : null
         da1.innerText = userData ? userData.username : null
+      }
+    }
+
+    async function getUserTotalRewards(userId) {
+      try {
+        const response = await fetch(`http://localhost:8800/taskResponse/getReward/${userId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch user rewards');
+        }
+        const data = await response.json();
+        const reward = document.getElementById("rewardLi")
+        reward.innerText = "Reward : " + data.totalRewards;
+      } catch (error) {
+        console.error('Error fetching user rewards:', error);
+        return null;
       }
     }
 

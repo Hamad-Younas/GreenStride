@@ -9,6 +9,8 @@ import questionRoute from "./routes/addQuestion.js"
 import answerRoute from "./routes/answer.js"
 import taskRoute from "./routes/task.js"
 import taskAnsRoute from "./routes/taskAnswer.js"
+import rewardRoute from "./routes/reward.js"
+import userRewardRoute from "./routes/userReward.js"
 
 
 const app = express();
@@ -19,7 +21,7 @@ const connect = async () => {
     await mongoose.connect(process.env.MONGO, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("Connected to MongoDB.");
   } catch (error) {
-    console.error("errorrr",error)
+    console.error("errorrr", error)
     throw error;
   }
 };
@@ -38,6 +40,8 @@ app.use("/question", questionRoute);
 app.use("/answer", answerRoute);
 app.use("/task", taskRoute);
 app.use("/taskResponse", taskAnsRoute);
+app.use("/reward", rewardRoute);
+app.use("/userReward", userRewardRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

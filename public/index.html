@@ -57,11 +57,23 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a class='active' href='index.html'>Home</a></li>
-
                             <li class="w-full"><a href='about-us.html'>About us</a></li>
                             <li class="w-full"><a href='contact.html'>Contact Us</a></li>
                             <li class="w-full"><a href='blogs.html'>Blog</a></li>
                             <li class="w-full"><a href='rewards.html'>Reward</a></li>
+                            <li class="hidden" id="dashboard"><a href='./user dashboard/index.html'>Dashboard</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
+                            <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
@@ -70,8 +82,8 @@
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/index.html'>Quiz</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/forgetpassword.html'>Forget Pass</a></li>
-                            <li> <a href="./forms/signin.html" class="btn btn-light btn-radius btn-brd grd1 "
-                                    id="signinbutton"
+                            <li> <a href="./forms/signin.html" onclick="handleLogout()"
+                                    class="btn btn-light btn-radius btn-brd grd1 " id="signinbutton"
                                     style="padding: 15px !important; border:solid 2px #afc845 !important; color: #afc845;border-radius: 40px; ">Signin</a>
                             </li>
                         </ul>
@@ -515,7 +527,7 @@
                             <li><a href='./forms/signin.html'>Signin<span class="icon icon-arrow-right2"></span></a>
                             </li>
 
-                          <li><a href='rewards.html'>Rewards <span class="icon icon-arrow-right2"></span></a></li>
+                            <li><a href='rewards.html'>Rewards <span class="icon icon-arrow-right2"></span></a></li>
                         </ul><!-- end links -->
                     </div><!-- end clearfix -->
                 </div><!-- end col -->
@@ -577,10 +589,17 @@
                 else {
                     const anc = document.getElementById("signinbutton")
                     anc.innerText = "Logout"
+                    document.getElementById("dashboard").classList.remove("hidden");
                 }
             }
             fetchusername()
         })
+    </script>
+    <script>
+        function handleLogout() {
+            localStorage.setItem("user", null)
+            window.location.reload();
+        }
     </script>
 
 </body>

@@ -45,7 +45,7 @@ export const getUserResponseTasks = async (req, res) => {
         const formattedDate = `${year}-${month}-${day}`;
 
         // Step 1: Find the response tasks for today's date for each user
-        const responseTasks = await Answer.find({ date: formattedDate })
+        const responseTasks = await Answer.find({})
             .populate('user')
             .populate('task');
 
@@ -123,3 +123,54 @@ export const updateTaskResponse = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+
+export const getTotalRewards = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Assuming userId is passed as a request parameter
+
+        // Find all task responses for the specific user
+        const userTaskResponses = await Answer.find({ user: userId });
+
+        // Calculate the total rewards
+        let totalRewards = 0;
+        userTaskResponses.forEach(taskResponse => {
+            totalRewards += taskResponse.reward || 0; // Add reward to total, default to 0 if reward is undefined
+        });
+
+        // Return only the total rewards
+        res.status(200).json({ totalRewards: totalRewards });
+    } catch (error) {
+        console.error("Error getting total rewards:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+export const updateTaskRewards = async (req, res) => {
+    try {
+        const { userId, reward } = req.body; // Assuming you're sending userId and reward from frontend
+
+        // Fetch all task responses for the specific user
+        const tasks = await Answer.find({ user: userId });
+
+        let remainingReward = reward;
+
+        // Loop through tasks and update rewards until reward is fulfilled
+        for (const task of tasks) {
+            if (remainingReward <= 0) break; // If reward is fulfilled, stop updating rewards
+
+            // Calculate remaining reward after deducting from task's reward
+            const deductedReward = Math.min(remainingReward, task.reward);
+            remainingReward -= deductedReward;
+            const updatedReward = Math.max(0, task.reward - deductedReward);
+
+            // Update the task with the new reward value
+            await Answer.findByIdAndUpdate(task._id, { reward: updatedReward }, { new: true });
+        }
+
+        res.status(200).json({ message: 'Rewards updated successfully.' });
+    } catch (error) {
+        console.error('Error updating rewards:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};  
