@@ -505,6 +505,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Position</th>
                         <th scope="col">Score</th>
+                        <th scope="col">Reward</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -730,6 +731,7 @@
             const nameCell = document.createElement('td');
             const positionCell = document.createElement('td');
             const scoreCell = document.createElement('td');
+            const rewardCell = document.createElement('td');
 
             // Fill the cells with data
             nameCell.innerHTML = `<a href="#" class="text-primary fw-bold">${user.username}</a>`;
@@ -737,11 +739,14 @@
             positionCell.textContent = index + 1; // Display the position (index + 1)
             scoreCell.classList.add('fw-bold');
             scoreCell.textContent = user.totalPoints;
+            rewardCell.classList.add('fw-bold');
+            rewardCell.textContent = user.totalReward;
 
             // Append cells to the row
             row.appendChild(nameCell);
             row.appendChild(positionCell);
             row.appendChild(scoreCell);
+            row.appendChild(rewardCell);
 
             // Append the row to the table body
             tableBody.appendChild(row);

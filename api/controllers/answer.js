@@ -1,4 +1,5 @@
 import Answer from "../models/answer.js";
+import TaskResponse from '../models/taskAnswer.js';
 import mongoose from 'mongoose';
 
 export const add = async (req, res, next) => {
@@ -91,7 +92,7 @@ export const getUserAnswersSummary = async (req, res, next) => {
 
 export const getUserScores = async (req, res) => {
   try {
-    // Use an aggregation pipeline to calculate the total obtained points for each user
+    // Use an aggregation pipeline to calculate the total obtained points and reward for each user
     const results = await Answer.aggregate([
       {
         $unwind: '$marks', // Unwind the marks array to access each mark
@@ -126,8 +127,29 @@ export const getUserScores = async (req, res) => {
         },
       },
       {
-        $limit: 10 // Limit the results to 10 objects
-      }
+        $limit: 10, // Limit the results to 10 objects
+      },
+      {
+        $lookup: {
+          from: 'taskresponses', // Join with the TaskResponse model
+          localField: '_id',
+          foreignField: 'user',
+          as: 'userResponses',
+        },
+      },
+      {
+        $project: {
+          fullname: 1,
+          username: 1,
+          totalPoints: 1,
+          totalReward: { $sum: '$userResponses.reward' }, // Calculate the total reward
+        },
+      },
+      {
+        $sort: {
+          totalReward: -1, // Sort by total reward in descending order
+        },
+      },
     ]);
 
     // Send the results as a response

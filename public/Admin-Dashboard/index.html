@@ -80,8 +80,8 @@
                 <i class="bi bi-box-arrow-right"></i>
                 <span onclick="handlelogout()">Sign Out</span>
                 <script>
-                  function handlelogout(){
-                    localStorage.setItem("user",null)
+                  function handlelogout() {
+                    localStorage.setItem("user", null)
                     window.location.href = "../forms/signin.html"
                   }
                 </script>
@@ -255,7 +255,7 @@
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                       data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-success">Save changes</button>
+                                    <button type="button" class="btn btn-success" onclick="handleSave()">Save changes</button>
                                   </div>
                                 </div>
                               </div>
@@ -847,9 +847,9 @@
           console.error('Error fetching data:', error);
         });
 
-        
+
     });
-    document.addEventListener("DOMContentLoaded",function () {
+    document.addEventListener("DOMContentLoaded", function () {
       fetchusername()
     })
 
@@ -906,7 +906,7 @@
                                                 <div class="card-body">
                                                     <p class="card-text">${task.title} -> ${task.description}</p>
                                                     <div class="pt-2">
-                                                        <button onclick="approveTask('${item.user._id}', '${task._id}')" class="btn btn-success btn-sm" title="Approve Task">${task.reward == 1 ? "Approved":"Approve"}</button>
+                                                        <button onclick="approveTask('${item.user._id}', '${task._id}')" class="btn btn-success btn-sm" title="Approve Task">${task.reward == 1 ? "Approved" : "Approve"}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -918,7 +918,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="handleSave()">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -938,7 +938,7 @@
       const requestBody = {
         reward: 1
       };
-      
+
       // Make a POST request to your backend API endpoint
       fetch(`http://localhost:8800/taskResponse/update?userId=${userId}&taskId=${taskId}`, {
         method: 'PUT',
@@ -955,8 +955,26 @@
         })
         .then(data => {
           console.log('Task response updated successfully:', data);
-          window.location.reload();
-          // Handle success, if needed
+          fetch(`http://localhost:8800/taskResponse/updateScore?userId=${userId}&taskId=${taskId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              alert("success")
+            })
+            .catch(error => {
+              console.error('Error updating task response:', error);
+              // Handle error, if needed
+            });
         })
         .catch(error => {
           console.error('Error updating task response:', error);
@@ -981,6 +999,10 @@
         da.innerText = userData ? userData.username : null
         da1.innerText = userData ? userData.username : null
       }
+    }
+
+    function handleSave(){
+      window.location.reload();
     }
 
   </script>

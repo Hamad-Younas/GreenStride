@@ -1,6 +1,8 @@
 import Answer from "../models/taskAnswer.js";
 import User from '../models/User.js'; // Assuming you have a User model
 import RAnswer from '../models/answer.js';
+import Task from '../models/task.js';
+import Question from '../models/question.js';
 
 
 export const add = async (req, res, next) => {
@@ -123,6 +125,57 @@ export const updateTaskResponse = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const decreaseMarks = async (req, res) => {
+    try {
+        const { userId, taskId } = req.query;
+        let check = 5;
+        console.log(req.query)
+
+        // Step 1: Get the task type based on taskId
+        const task = await Task.findById(taskId);
+        const taskType = task.type;
+
+        // Step 2: Retrieve all questions associated with the specific user for the given task
+        const userAnswers = await RAnswer.findOne({ user: userId }).populate({
+            path: 'marks.question',
+            model: 'Question',
+        });
+
+        // Step 3: For each question, find its type and decrement the marks accordingly, but only up to 5
+        if (userAnswers) {
+            for (const mark of userAnswers.marks) {
+                const questionType = mark.question.type;
+                const options = mark.question.options;
+
+                // Assuming marks is the array of marks in Answer model
+                // Decrement marks based on question and task type
+                if (taskType === questionType) {
+                    // Reduce the marks up to 5
+                    if (mark.obtainPoints > 0) {
+                        if (mark.obtainPoints >= 5) {
+                            check = 0;
+                            mark.obtainPoints -= 5;
+                        } else {
+                            mark.obtainPoints = 0;
+                        }
+                    }
+                }
+                if(check == 0){
+                    break;
+                }
+            }
+
+            // Save the updated marks outside of the loop
+            await userAnswers.save();
+        }
+
+        res.json({ message: 'Marks decreased successfully.' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 
 export const getTotalRewards = async (req, res) => {
