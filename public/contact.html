@@ -68,9 +68,7 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="w-full"><a href='index.html'>Home</a></li>
-                            <li class="w-full"><a href='about-us.html'>About us</a></li>
                             <li><a class='active' href='contact.html'>Contact Us</a></li>
-                            <li class="w-full"><a href='blogs.html'>Blog</a></li>
                             <li class="w-full"><a href='rewards.html'>Reward</a></li>
                             <li class="hidden" id="dashboard"><a href='./user dashboard/index.html'>Dashboard</a></li>
                             <li class="w-full"><a class="hidden" href='./forms/add_question.html'>Add Question</a></li>
@@ -130,7 +128,7 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="contact_form">
                             <div id="message"></div>
-                            <form id="contactform" class="row" method="post">
+                            <form id="contactform" class="row">
                                 <fieldset class="row-fluid">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 5px;">
                                         <input type="text" name="firstName" id="first_name" class="form-control"
@@ -157,8 +155,7 @@
                                             data-sitekey="6LcYytQjAAAAAD8RSMMyKCOPkb1Xn35D1VAa5sZf"></div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-                                        <button class="btn btn-light btn-radius btn-brd grd1 btn-block"
-                                            name="submitcontact" id="submitcontact">Submit</button>
+                                        <button class="btn btn-light btn-radius btn-brd grd1 btn-block">Submit</button>
                                     </div>
                                 </fieldset>
                             </form>
@@ -194,14 +191,7 @@
 
                             <ul class="footer-links hov">
                                 <li><a href='index.html'>Home <span class="icon icon-arrow-right2"></span></a></li>
-                                <li><a href='about-us.html'>About Us <span class="icon icon-arrow-right2"></span></a>
-                                </li>
-                                <li><a href='services.html'>Our Services <span
-                                            class="icon icon-arrow-right2"></span></a></li>
-                                <li><a href='portfolio.html'>Portfolio <span class="icon icon-arrow-right2"></span></a>
-                                </li>
-                                <li><a href='jobs.html'>Carrers <span class="icon icon-arrow-right2"></span></a></li>
-                                <li><a href='blogs.html'>Blogs <span class="icon icon-arrow-right2"></span></a></li>
+                                <li><a href='rewards.html'>Reward<span class="icon icon-arrow-right2"></span></a></li>
                                 <li><a href='contact.html'>Contact <span class="icon icon-arrow-right2"></span></a></li>
                             </ul><!-- end links -->
                         </div><!-- end clearfix -->
@@ -244,26 +234,52 @@
             var submitcontact = document.getElementById('submitcontact');
             submitcontact.addEventListener("click", function (e) {
                 e.preventDefault();
-                var firstname = document.getElementById('first_name').value;
-                var lastname = document.getElementById('last_name').value;
-                var email = document.getElementById('email').value;
-                var phone = document.getElementById('phone').value;
-                var comments = document.getElementById('comments').value;
-                if (firstname == "" || lastname == "" || email == "" || phone == "" || comments == "") {
-                    alert('Fill all the fields')
-                }
-                else if (email.includes('@') == false) {
-                    alert('Email is invalid')
-                }
-                else if (grecaptcha && grecaptcha.getResponse().length == 0) {
-                    alert('Verify the Recaptcha')
-                }
-                else {
-                    document.getElementById('contactform').submit();
-                    alert('Thanks for contacting')
-                }
-            })
+                // var firstname = document.getElementById('first_name').value;
+                // var lastname = document.getElementById('last_name').value;
+                // var email = document.getElementById('email').value;
+                // var phone = document.getElementById('phone').value;
+                // var comments = document.getElementById('comments').value;
+                // if (firstname == "" || lastname == "" || email == "" || phone == "" || comments == "") {
+                //     alert('Fill all the fields');
+                // } else {
+                //     // Prepare form data
+                    var formData = new FormData();
+                    formData.append('firstName', firstname);
+                    formData.append('lastName', lastname);
+                    formData.append('email', email);
+                    formData.append('phoneNumber', phone);
+                    formData.append('comment', comments);
+                    console.log(formData)
+
+                    // Send form data to backend using fetch
+                    fetch('http://localhost:8800/mail/send', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Handle success response
+                            console.log('Form data submitted successfully:', data);
+                            alert('Thanks for contacting');
+                            // You can add further actions here if needed
+                        })
+                        .catch(error => {
+                            // Handle error response
+                            console.error('Error submitting form:', error);
+                            // You can add error handling actions here if needed
+                        });
+                // }
+            });
         </script>
+
         <script src="../www.google.com/recaptcha/api.js"></script>
         <!-- ALL JS FILES -->
         <script src="js/all.js"></script>
