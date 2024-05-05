@@ -144,10 +144,10 @@
 					.then(data => {
 						// Handle the server response
 						if (data.details.isAdmin) {
+							localStorage.setItem("user", JSON.stringify(data.details))
 							window.location.href = '../Admin-Dashboard/index.html';
 						}
 						else {
-
 							if (data.message == "success") {
 								localStorage.setItem("user", JSON.stringify(data.details))
 								// Login was successful
