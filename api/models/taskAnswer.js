@@ -10,6 +10,9 @@ const Schema = new mongoose.Schema(
     reward: {
       type: Number,
     },
+    greenStridePoint: {
+      type: Number,
+    },
     res: {
       type: String,
       required: true

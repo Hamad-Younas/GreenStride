@@ -75,7 +75,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
             <span class="d-none d-md-block dropdown-toggle ps-2" id="usernamespan">K. Anderson</span>
           </a><!-- End Profile Iamge Icon -->
 
@@ -501,11 +501,11 @@
                   <table class="table table-borderless">
                     <thead>
                       <tr>
-
                         <th scope="col">Name</th>
                         <th scope="col">Position</th>
                         <th scope="col">Score</th>
                         <th scope="col">Reward</th>
+                        <th scope="col">GreenStride Points</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -531,65 +531,71 @@
             </div><!-- End Top Selling -->
 
 
-                    <!-- Glob Section -->
-<div class="col-12">
-  <div class="card overflow-auto glob">
-    <!-- Internal Glob CSS -->
-    <style>
-      .glob {
-        background-color: #2b6472; /* Background color */
-        padding: 50px 10%; /* Padding top and bottom */
-        text-align: center; /* Center align content */
-      }
+            <!-- Glob Section -->
+            <div class="col-12">
+              <div class="card overflow-auto glob">
+                <!-- Internal Glob CSS -->
+                <style>
+                  .glob {
+                    background-color: #2b6472;
+                    /* Background color */
+                    padding: 50px 10%;
+                    /* Padding top and bottom */
+                    text-align: center;
+                    /* Center align content */
+                  }
 
-      h1 {
-        font-size: 60px; /* Large title font size */
-        color: white; /* Title color */
-        margin-bottom: 20px; /* Bottom margin */
-      }
+                  h1 {
+                    font-size: 60px;
+                    /* Large title font size */
+                    color: white;
+                    /* Title color */
+                    margin-bottom: 20px;
+                    /* Bottom margin */
+                  }
 
-      h2 {
-        font-size: 24px; /* Big title font size */
-        color: white; /* Big title color */
-        margin-bottom: 30px; /* Bottom margin */
-      }
+                  h2 {
+                    font-size: 24px;
+                    /* Big title font size */
+                    color: white;
+                    /* Big title color */
+                    margin-bottom: 30px;
+                    /* Bottom margin */
+                  }
 
-      .image-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columns with equal width */
-        gap: 20px; /* Gap between grid items */
-      }
+                  .image-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    /* 3 columns with equal width */
+                    gap: 20px;
+                    /* Gap between grid items */
+                  }
 
-      .image-grid img {
-        width: 100%; /* Make images fill their grid cells */
-        height: auto; /* Maintain aspect ratio */
-        animation: earthSpin 10s linear infinite; /* Animation for continuous spinning */
-      }
+                  .image-grid img {
+                    width: 100%;
+                    /* Make images fill their grid cells */
+                    height: auto;
+                    /* Maintain aspect ratio */
+                    animation: earthSpin 10s linear infinite;
+                    /* Animation for continuous spinning */
+                  }
 
-      @keyframes earthSpin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
+                  @keyframes earthSpin {
+                    from {
+                      transform: rotate(0deg);
+                    }
 
-    <div class="card-body pb-0">
-      <h2>If everyone lived like you, we would need</h2>
-      <h1>3 Earths</h1>
+                    to {
+                      transform: rotate(360deg);
+                    }
+                  }
+                </style>
 
-      <div class="image-grid">
-        <img src="assets/img/earth.png" alt="">
-        <img src="assets/img/earth.png" alt="">
-        <img src="assets/img/earth.png" alt="">
-      </div>
+                <div class="card-body pb-0" id="earth-card-body">
 
-    </div>
-
-  </div>
-</div><!-- End Glob Section -->
+                </div>
+              </div>
+            </div><!-- End Glob Section -->
 
           </div>
         </div><!-- End Left side columns -->
@@ -747,6 +753,7 @@
           task: taskId,
           date: formattedDate,
           reward: 0,
+          greenStridePoint: 0,
           res: uploadRes.url
         };
 
@@ -793,6 +800,7 @@
             const positionCell = document.createElement('td');
             const scoreCell = document.createElement('td');
             const rewardCell = document.createElement('td');
+            const greenStrideCell = document.createElement('td');
 
             // Fill the cells with data
             nameCell.innerHTML = `<a href="#" class="text-primary fw-bold">${user.username}</a>`;
@@ -802,12 +810,15 @@
             scoreCell.textContent = user.totalPoints;
             rewardCell.classList.add('fw-bold');
             rewardCell.textContent = user.totalReward;
+            greenStrideCell.classList.add('fw-bold');
+            greenStrideCell.textContent = user.totalGreenStridePoints;
 
             // Append cells to the row
             row.appendChild(nameCell);
             row.appendChild(positionCell);
             row.appendChild(scoreCell);
             row.appendChild(rewardCell);
+            row.appendChild(greenStrideCell);
 
             // Append the row to the table body
             tableBody.appendChild(row);
@@ -854,6 +865,98 @@
         return null;
       }
     }
+    let totalScore = 0;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Function to make a GET request to the backend
+      function fetchData() {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userId = userData ? userData._id : null;
+        // Replace 'your-backend-url' with the actual URL of your backend endpoint
+        const url = `http://localhost:8800/answer/getTotalScore?id=${userId}`;
+
+        // Make a GET request to the backend
+        fetch(url)
+          .then(response => {
+            // Check if the response is successful
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            // Parse the JSON response
+            return response.json();
+          })
+          .then(data => {
+            if (data >= 0 && data <= 33) {
+              const a = document.getElementById("earth-card-body")
+              let innerhtml = `
+              <h2>keep it up</h2>
+              <h1>1 Earths</h1>
+              <div class="image-grid">
+                <img src="assets/img/earth.png" alt="">
+              </div>
+              `;
+              a.innerHTML = innerhtml;
+            }
+            if (data >= 34 && data <= 66) {
+              const a = document.getElementById("earth-card-body")
+              let innerhtml = `
+              <h2>Amazing, but you can do even better</h2>
+              <h1>1 Earths</h1>
+              <div class="image-grid">
+                <img src="assets/img/earth.png" alt="">
+              </div>
+              `;
+              a.innerHTML = innerhtml;
+            }
+            if (data >= 67 && data <= 99) {
+              const a = document.getElementById("earth-card-body");
+              let innerhtml = `
+        <h2>you are overshooting, but you can change that</h2>
+        <h1>2 Earths</h1>
+        <div class="image-grid">
+            <img src="assets/img/earth.png" alt="">
+            <img src="assets/img/earth.png" alt="">
+        </div>
+    `;
+              a.innerHTML = innerhtml;
+            }
+            if (data >= 100 && data <= 132) {
+              const a = document.getElementById("earth-card-body");
+              let innerhtml = `
+        <h2>Much more work to be done </h2>
+        <h1>3 Earths</h1>
+        <div class="image-grid">
+            <img src="assets/img/earth.png" alt="">
+            <img src="assets/img/earth.png" alt="">
+            <img src="assets/img/earth.png" alt="">
+        </div>
+    `;
+              a.innerHTML = innerhtml;
+            }
+            if (data >= 133 && data <= 165) {
+              const a = document.getElementById("earth-card-body");
+              let innerhtml = `
+        <h2>change your ways before its too late!</h2>
+        <h1>More than 3 Earths</h1>
+        <div class="image-grid">
+            <img src="assets/img/earth.png" alt="">
+            <img src="assets/img/earth.png" alt="">
+            <img src="assets/img/earth.png" alt="">
+        </div>
+    `;
+              a.innerHTML = innerhtml;
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occur during the fetch operation
+            console.error('Fetch error:', error);
+          });
+      }
+
+      // Call the fetchData function when DOM content is loaded
+      fetchData();
+    });
+
 
   </script>
 </body>

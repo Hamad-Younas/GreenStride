@@ -16,6 +16,7 @@ export const add = async (req, res, next) => {
             // If it exists, update the existing task response with the new data
             existingResponse.date = req.body.date;
             existingResponse.reward = req.body.reward;
+            existingResponse.greenStridePoints = req.body.reward;
             existingResponse.res = req.body.res;
 
             // Save the updated task response
@@ -70,6 +71,7 @@ export const getUserResponseTasks = async (req, res) => {
                 title: task.task.title,
                 description: task.task.description,
                 reward: task.reward,
+                greenStridePoint: task.greenStridePoint,
                 res: task.res,
             });
         });
@@ -129,18 +131,21 @@ export const updateTaskResponse = async (req, res) => {
 export const decreaseMarks = async (req, res) => {
     try {
         const { userId, taskId } = req.query;
-        let check = 5;
-        console.log(req.query)
+        let check = 0;
 
         // Step 1: Get the task type based on taskId
         const task = await Task.findById(taskId);
         const taskType = task.type;
+
+        console.log("dsds", taskType);
 
         // Step 2: Retrieve all questions associated with the specific user for the given task
         const userAnswers = await RAnswer.findOne({ user: userId }).populate({
             path: 'marks.question',
             model: 'Question',
         });
+
+        console.log("rsdsds", userAnswers)
 
         // Step 3: For each question, find its type and decrement the marks accordingly, but only up to 5
         if (userAnswers) {
@@ -152,16 +157,24 @@ export const decreaseMarks = async (req, res) => {
                 // Decrement marks based on question and task type
                 if (taskType === questionType) {
                     // Reduce the marks up to 5
+                    let p = mark.obtainPoints;
                     if (mark.obtainPoints > 0) {
                         if (mark.obtainPoints >= 5) {
-                            check = 0;
                             mark.obtainPoints -= 5;
+                            check += 5;
                         } else {
-                            mark.obtainPoints = 0;
+                            if (check + p <= 5) {
+                                mark.obtainPoints -= p;
+                                check += p;
+                            } else {
+                                let remainingPoints = 5 - check;
+                                mark.obtainPoints -= remainingPoints;
+                                check += remainingPoints;
+                            }
                         }
                     }
                 }
-                if(check == 0){
+                if (check >= 5) {
                     break;
                 }
             }

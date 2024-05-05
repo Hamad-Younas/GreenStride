@@ -142,12 +142,13 @@ export const getUserScores = async (req, res) => {
           fullname: 1,
           username: 1,
           totalPoints: 1,
-          totalReward: { $sum: '$userResponses.reward' }, // Calculate the total reward
+          totalReward: { $sum: '$userResponses.reward' },
+          totalGreenStridePoints: { $sum: '$userResponses.greenStridePoint' },
         },
       },
       {
         $sort: {
-          totalReward: -1, // Sort by total reward in descending order
+          totalGreenStridePoints: -1, // Sort by total reward in descending order
         },
       },
     ]);
@@ -159,3 +160,26 @@ export const getUserScores = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+export const sumObtainPoints = async (req, res) => {
+    try {
+        // Find the answer document by its ID
+        const answerId = req.query.id;
+        const answer = await Answer.findOne({user : answerId});
+        
+        if (!answer) {
+            // If answer not found, return an error or handle it as needed
+            res.status(400).json({ error: "not found" });
+        }
+        
+        // Calculate the sum of obtainPoints from marks array
+        const totalPoints = answer.marks.reduce((total, mark) => total + mark.obtainPoints, 0);
+        
+        res.json(totalPoints);
+    } catch (error) {
+        // Handle any errors that occur during the process
+        console.error('Error:', error);
+        return { error: 'An error occurred' };
+    }
+}

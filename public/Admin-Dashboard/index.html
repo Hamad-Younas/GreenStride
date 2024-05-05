@@ -64,7 +64,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
             <span class="d-none d-md-block dropdown-toggle ps-2" id="usernamespan">K. Anderson</span>
           </a><!-- End Profile Iamge Icon -->
 
@@ -133,8 +133,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Scores</th>
                         <th scope="col">Rewards</th>
-                        <th scope="col">Tasks</th>
-
+                        <th scope="col">GreenStride Points</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -255,7 +254,8 @@
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                       data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-success" onclick="handleSave()">Save changes</button>
+                                    <button type="button" class="btn btn-success" onclick="handleSave()">Save
+                                      changes</button>
                                   </div>
                                 </div>
                               </div>
@@ -868,6 +868,7 @@
             <td>${item.user.username}</td>
             <td>${item.totalPoints}</td>
             <td>${item.tasks.reduce((total, task) => total + task.reward, 0)}</td>
+            <td>${item.tasks.reduce((total, task) => total + task.greenStridePoint, 0)}</td>
             <td>
     <div class="card-body">
         <!-- Basic Modal -->
@@ -934,52 +935,64 @@
     }
 
     function approveTask(userId, taskId) {
-      // Prepare the data to be sent in the request body
-      const requestBody = {
-        reward: 1
-      };
+      var button = event.target;
 
-      // Make a POST request to your backend API endpoint
-      fetch(`http://localhost:8800/taskResponse/update?userId=${userId}&taskId=${taskId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
+      // Get the text content of the button
+      var buttonText = button.innerText.trim();
+      if (buttonText.toLowerCase() === "approved") {
+        alert("Already Approved")
+      }
+      else {
+        const requestBody = {
+          reward: 1,
+          greenStridePoint: 1
+        };
+
+        // Make a POST request to your backend API endpoint
+        fetch(`http://localhost:8800/taskResponse/update?userId=${userId}&taskId=${taskId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
         })
-        .then(data => {
-          console.log('Task response updated successfully:', data);
-          fetch(`http://localhost:8800/taskResponse/updateScore?userId=${userId}&taskId=${taskId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
           })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.json();
+          .then(data => {
+            console.log('Task response updated successfully:', data);
+            fetch(`http://localhost:8800/taskResponse/updateScore?userId=${userId}&taskId=${taskId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(requestBody)
             })
-            .then(data => {
-              alert("success")
-            })
-            .catch(error => {
-              console.error('Error updating task response:', error);
-              // Handle error, if needed
-            });
-        })
-        .catch(error => {
-          console.error('Error updating task response:', error);
-          // Handle error, if needed
-        });
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data => {
+                alert("success")
+                button.innerText = "Approved";
+              })
+              .catch(error => {
+                console.error('Error updating task response:', error);
+                // Handle error, if needed
+              });
+          })
+          .catch(error => {
+            console.error('Error updating task response:', error);
+            // Handle error, if needed
+          });
+      }
+      // Prepare the data to be sent in the request body
+
     }
 
     function fetchusername() {
@@ -1001,7 +1014,7 @@
       }
     }
 
-    function handleSave(){
+    function handleSave() {
       window.location.reload();
     }
 
