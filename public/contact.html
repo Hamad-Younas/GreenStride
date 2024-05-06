@@ -155,7 +155,8 @@
                                             data-sitekey="6LcYytQjAAAAAD8RSMMyKCOPkb1Xn35D1VAa5sZf"></div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-                                        <button class="btn btn-light btn-radius btn-brd grd1 btn-block">Submit</button>
+                                        <button class="btn btn-light btn-radius btn-brd grd1 btn-block"
+                                            onclick="submitForm()">Submit</button>
                                     </div>
                                 </fieldset>
                             </form>
@@ -231,53 +232,44 @@
         <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
         <script src="../smtpjs.com/v3/smtp.js"></script>
         <script>
-            var submitcontact = document.getElementById('submitcontact');
-            submitcontact.addEventListener("click", function (e) {
-                e.preventDefault();
-                // var firstname = document.getElementById('first_name').value;
-                // var lastname = document.getElementById('last_name').value;
-                // var email = document.getElementById('email').value;
-                // var phone = document.getElementById('phone').value;
-                // var comments = document.getElementById('comments').value;
-                // if (firstname == "" || lastname == "" || email == "" || phone == "" || comments == "") {
-                //     alert('Fill all the fields');
-                // } else {
-                //     // Prepare form data
-                    var formData = new FormData();
-                    formData.append('firstName', firstname);
-                    formData.append('lastName', lastname);
-                    formData.append('email', email);
-                    formData.append('phoneNumber', phone);
-                    formData.append('comment', comments);
-                    console.log(formData)
+            function submitForm() {
+                // Get form data
+                var formData = {
+                    firstName: document.getElementById("first_name").value,
+                    lastName: document.getElementById("last_name").value,
+                    email: document.getElementById("email").value,
+                    phoneNumber: document.getElementById("phone").value,
+                    comment: document.getElementById("comments").value,
+                    // You may also include other form fields here if needed
+                    // captchaResponse: grecaptcha.getResponse() // Include captcha response if needed
+                };
 
-                    // Send form data to backend using fetch
-                    fetch('http://localhost:8800/mail/send', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
+                // Send data to backend
+                fetch('http://localhost:8800/mail/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
                     })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Handle success response
-                            console.log('Form data submitted successfully:', data);
-                            alert('Thanks for contacting');
-                            // You can add further actions here if needed
-                        })
-                        .catch(error => {
-                            // Handle error response
-                            console.error('Error submitting form:', error);
-                            // You can add error handling actions here if needed
-                        });
-                // }
-            });
+                    .then(data => {
+                        // Handle success response from backend
+                        console.log('Success:', data);
+                        // You can perform further actions like showing a success message or redirecting the user
+                    })
+                    .catch(error => {
+                        // Handle error
+                        console.error('Error:', error);
+                        // You can show an error message to the user or perform other error handling tasks
+                    });
+            }
+
         </script>
 
         <script src="../www.google.com/recaptcha/api.js"></script>

@@ -1,3 +1,5 @@
+import { transporter} from '../utils/nodemailer.js'
+
 export async function mail(req, res) {
     const { firstName, lastName, email, phoneNumber, comment } = req.body;
 
